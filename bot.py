@@ -5,8 +5,8 @@ from io import BytesIO
 from atproto import Client, models
 
 # --- ⚠️ REQUIRED: CHANGE THESE TWO LINES ⚠️ ---
-LASTFM_USER = "thetenthlisten"  # e.g., "musicfan99"
-BSKY_HANDLE = "mintyice.online"      # e.g., "johndoe.bsky.social"
+LASTFM_USER = "thetenthlisten"  # Your Last.fm username
+BSKY_HANDLE = "mintyice.online"      # Your Bluesky handle
 # ----------------------------------------------
 
 LASTFM_API_KEY = os.getenv("LASTFM_API_KEY")
@@ -16,6 +16,7 @@ def get_top_albums():
     url = f"http://ws.audioscrobbler.com/2.0/?method=user.gettopalbums&user={LASTFM_USER}&api_key={LASTFM_API_KEY}&period=7day&limit=9&format=json"
     response = requests.get(url).json()
     
+    # Check for Last.fm specific errors
     if 'error' in response:
         raise Exception(f"Last.fm Error: {response.get('message')} (Error Code: {response.get('error')})")
     
@@ -27,7 +28,7 @@ def get_top_albums():
 def create_grid(image_urls):
     images = []
     for url in image_urls:
-        if not url: # Use a placeholder if an album has no cover art
+        if not url: # Use a gray placeholder if cover art is missing
             images.append(Image.new('RGB', (300, 300), color='gray'))
             continue
         resp = requests.get(url)
@@ -46,10 +47,10 @@ def post_to_bluesky(image_data):
     client = Client()
     client.login(BSKY_HANDLE, BSKY_PASSWORD)
     
-    # We use the direct 'send_image' helper with the raw bytes
-    # This is more stable across different library versions
+    # Passing the image as raw bytes directly to the helper 
+    # fix the "tuple" error by letting the helper handle the upload
     client.send_image(
-        text=f"test post please ignore! 🎵",
+        text=f"test post please ignore 🎵",
         image=image_data,
         image_alt="A 3x3 grid of my most listened to albums this week."
     )
