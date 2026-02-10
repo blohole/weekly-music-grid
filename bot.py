@@ -50,7 +50,7 @@ def post_to_bluesky(image_data):
     # Passing the image as raw bytes directly to the helper 
     # fix the "tuple" error by letting the helper handle the upload
     client.send_image(
-        text=f"test post please ignore 🎵",
+        text=f"weekly last.fm top albums post",
         image=image_data,
         image_alt="A 3x3 grid of my most listened to albums this week."
     )
