@@ -1,0 +1,23 @@
+name: Weekly Bluesky 3x3
+on:
+  schedule:
+    # 9:00 AM EST is 2:00 PM (14:00) UTC
+    - cron: '0 14 * * 0' 
+  workflow_dispatch: # Allows you to run it manually for testing
+
+jobs:
+  post-chart:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+      - name: Install dependencies
+        run: pip install requests Pillow atproto
+      - name: Run Bot
+        env:
+          LASTFM_API_KEY: ${{ secrets.LASTFM_API_KEY }}
+          BSKY_PASSWORD: ${{ secrets.BSKY_PASSWORD }}
+        run: python bot.py
