@@ -5,8 +5,8 @@ from io import BytesIO
 from atproto import Client
 
 # --- REQUIRED CONFIG ---
-LASTFM_USER = "thetenthlisten"
-BSKY_HANDLE = "mintyice.online"
+LASTFM_USER = "blohole"
+BSKY_HANDLE = "blohole.bsky.social"
 # -----------------------
 
 LASTFM_API_KEY = os.getenv("LASTFM_API_KEY")
